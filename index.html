@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problem Crackers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1F3A;--navy2:#14315C;--orange:#FF7A1A;--orange2:#E5640A;--bg:#fff;--soft:#F3F6FB;--line:#E1E7F0;--txt:#0B1F3A;--mut:#5B6B82;--ok:#157F4B;--bad:#C0392B}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:Sora,system-ui,sans-serif;color:var(--txt);background:var(--bg);line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.btn{border:0;border-radius:12px;padding:.7rem 1.2rem;font-weight:700;cursor:pointer;background:var(--orange);color:#fff;transition:transform .15s,background .15s}
+.btn:hover{background:var(--orange2);transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:wait}
+.btn.navy{background:var(--navy)}.btn.navy:hover{background:var(--navy2)}
+.btn.ghost{background:transparent;color:var(--navy);border:2px solid var(--line)}.btn.ghost:hover{border-color:var(--orange);background:#fff}
+.btn.sm{padding:.4rem .8rem;font-size:.85rem;border-radius:10px}
+input,select,textarea{width:100%;padding:.65rem .8rem;border:1.5px solid var(--line);border-radius:10px;background:#fff;margin:.25rem 0 .8rem}
+input:focus,select:focus,textarea:focus{border-color:var(--orange);outline:none}
+label{font-size:.85rem;font-weight:600;color:var(--navy2)}
+.err{color:var(--bad);font-size:.85rem;min-height:1.2em}
+.chip{display:inline-block;background:var(--soft);border:1px solid var(--line);border-radius:99px;padding:.1rem .7rem;font-size:.78rem;margin:0 .3rem .3rem 0}
+.chip.o{background:#FFF1E6;border-color:#FFD3B0;color:var(--orange2)}
+/* auth */
+#auth{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.hero{background:var(--navy);color:#fff;padding:4rem 3rem;display:flex;flex-direction:column;justify-content:center;gap:1.5rem;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.05;margin:0;font-weight:800}
+.hero p{color:#C5D3E8;font-size:1.1rem;max-width:34ch;margin:0}
+.triad{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.node{border:2px solid var(--orange);border-radius:99px;padding:.4rem 1rem;font-weight:700;font-size:.9rem}
+.link{width:28px;height:2px;background:var(--orange)}
+.formside{display:flex;align-items:center;justify-content:center;padding:2rem}
+.authbox{width:100%;max-width:420px}
+.tabs{display:flex;gap:.4rem;background:var(--soft);padding:.3rem;border-radius:12px;margin-bottom:1rem}
+.tabs button{flex:1;border:0;background:none;padding:.55rem;border-radius:9px;font-weight:600;cursor:pointer}
+.tabs button.on{background:#fff;box-shadow:0 1px 4px rgba(11,31,58,.15);color:var(--orange2)}
+.logo{display:flex;align-items:center;gap:.6rem;font-weight:800;letter-spacing:.02em}
+.logo i{width:34px;height:34px;border-radius:10px;background:var(--orange);display:grid;place-items:center;color:#fff;font-style:normal}
+/* app */
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:1rem;padding:.7rem 1.2rem}
+header .search{flex:1;max-width:560px;margin:0 auto}
+header .search input{margin:0;background:var(--soft);border-radius:99px;padding-left:1.1rem}
+.ibtn{position:relative;border:0;background:var(--soft);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.05rem}
+.dot{position:absolute;top:-2px;right:-2px;background:var(--orange);color:#fff;font-size:.65rem;border-radius:99px;padding:0 .35rem;font-weight:700}
+.av{width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700;object-fit:cover;cursor:pointer;border:0}
+.menu{position:absolute;right:1rem;top:62px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 30px rgba(11,31,58,.15);padding:.4rem;min-width:200px}
+.menu button{display:block;width:100%;text-align:left;border:0;background:none;padding:.55rem .8rem;border-radius:8px;cursor:pointer}
+.menu button:hover{background:var(--soft)}
+main{max-width:1150px;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.big{border-radius:22px;padding:2rem;display:flex;flex-direction:column;gap:.8rem;align-items:flex-start}
+.big h2{margin:0;font-size:1.6rem}.big p{margin:0;max-width:44ch}
+.big.a{background:var(--navy);color:#fff}.big.a p{color:#C5D3E8}
+.big.b{background:#FFF1E6;border:2px solid #FFD3B0}
+.big.c{grid-column:1/-1;background:var(--soft);border:2px solid var(--line);flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.card{border:1px solid var(--line);border-radius:16px;padding:1.1rem;background:#fff;transition:box-shadow .2s,border-color .2s}
+.card:hover{border-color:var(--orange);box-shadow:0 8px 24px rgba(11,31,58,.08)}
+.card h3{margin:.2rem 0}.card p{color:var(--mut);font-size:.92rem;margin:.3rem 0 .6rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1rem}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.sub{display:flex;gap:.5rem;margin:1.5rem 0 1rem;flex-wrap:wrap;align-items:center}
+.sub select,.sub input{width:auto;margin:0}.sub input{flex:1;min-width:180px}
+.score{font-weight:800;color:var(--orange2)}
+.empty{text-align:center;color:var(--mut);padding:2.5rem;border:2px dashed var(--line);border-radius:16px;grid-column:1/-1}
+.modalbg{position:fixed;inset:0;background:rgba(11,31,58,.55);display:grid;place-items:center;z-index:50;padding:1rem}
+.modal{background:#fff;border-radius:20px;max-width:640px;width:100%;max-height:92vh;overflow:auto;padding:1.6rem;animation:pop .18s ease-out}
+@keyframes pop{from{transform:scale(.97);opacity:0}}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 .8rem}
+#toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:.7rem 1.2rem;border-radius:12px;z-index:99;display:none}
+#toast.bad{background:var(--bad)}
+.banner{background:#FFF1E6;border:1px solid #FFD3B0;padding:.8rem 1rem;border-radius:12px;margin:1rem 0;font-size:.9rem}
+@media(max-width:800px){#auth,.grid2,.two{grid-template-columns:1fr}.hero{padding:2rem 1.5rem}header .search{display:none}.big.c{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div><div id="toast" role="status"></div>
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+"use strict";
+const $=(s,e=document)=>e.querySelector(s), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const CATS=["Web Development","Mobile Applications","Artificial Intelligence","Machine Learning","FinTech","Healthcare","Education","Agriculture","Business Automation","Other"];
+const BCATS=["Retail Shops","Shopping Malls","Industries","Manufacturing","Restaurants","Hotels","Educational Institutions","Hospitals","Startups","Small Businesses","Large Enterprises","Other"];
+const NEEDS=["Website Development","Mobile Application Development","Online Shopping System","Inventory Management","Billing Software","Employee Management","Customer Management","Business Automation","AI Integration","Custom Software"];
+const LEVELS=["Beginner","Intermediate","Advanced","Professional"], STATUS=["Looking for Team","Collaboration Started","Development in Progress","Completed"];
+const configured=!!(window.CFG&&CFG.url&&CFG.key);
+const sb=configured?supabase.createClient(CFG.url,CFG.key):null;
+let S={user:null,profile:null,view:"home",tab:"ideas",q:"",cat:"",lvl:"",menu:false,saved:[],unread:0};
+const csv=s=>(s||"").split(",").map(x=>x.trim()).filter(Boolean);
+function toast(m,bad){const t=$("#toast");t.textContent=m;t.className=bad?"bad":"";t.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display="none",3500)}
+function sel(id,opts,val,ph){return `<select id="${id}">${ph?`<option value="">${ph}</option>`:""}${opts.map(o=>`<option ${o===val?"selected":""}>${o}</option>`).join("")}</select>`}
+function chips(a,o){return (a||[]).map(x=>`<span class="chip ${o?"o":""}">${esc(x)}</span>`).join("")}
+async function upload(file){if(!file)return null;if(file.size>5*1024*1024)throw new Error("File must be under 5 MB.");
+  const p=`${S.user.id}/${Date.now()}-${file.name.replace(/[^\w.-]/g,"_")}`;
+  const {error}=await sb.storage.from("uploads").upload(p,file);if(error)throw error;
+  return sb.storage.from("uploads").getPublicUrl(p).data.publicUrl}
+function modal(title,body,onSubmit,label="Save"){
+  const bg=document.createElement("div");bg.className="modalbg";
+  bg.innerHTML=`<div class="modal" role="dialog" aria-modal="true"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(title)}</h2><button class="btn ghost sm" data-x>Close</button></div><form id="mf" style="margin-top:1rem">${body}<div class="err" id="merr"></div>${onSubmit?`<button class="btn" id="msub">${esc(label)}</button>`:""}</form></div>`;
+  document.body.appendChild(bg);const close=()=>bg.remove();
+  bg.onclick=e=>{if(e.target===bg||e.target.dataset.x!==undefined)close()};
+  $("#mf",bg).onsubmit=async e=>{e.preventDefault();if(!onSubmit)return;const b=$("#msub",bg);b.disabled=true;$("#merr",bg).textContent="";
+    try{await onSubmit(bg);close()}catch(x){$("#merr",bg).textContent=x.message||"Something went wrong."}b.disabled=false};
+  return bg}
+const val=id=>($("#"+id)?.value||"").trim();
+
+/* ---------- AUTH ---------- */
+function authView(mode="login"){
+  $("#root").innerHTML=`<div id="auth"><section class="hero"><div class="logo"><i>PC</i>PROBLEM CRACKERS</div>
+  <h1>Turn Your Ideas Into Reality.</h1><p>Connect ideas, skills, and businesses to build something extraordinary.</p>
+  <div class="triad"><span class="node">Idea</span><span class="link"></span><span class="node">Skills</span><span class="link"></span><span class="node">Business</span></div></section>
+  <section class="formside"><div class="authbox">
+  ${configured?"":`<div class="banner"><b>Not connected yet.</b> Set SUPABASE_URL and SUPABASE_ANON_KEY on the server. Sign-in is disabled until then.</div>`}
+  <div class="tabs" role="tablist"><button class="${mode=="login"?"on":""}" data-m="login">Email</button><button class="${mode=="phone"?"on":""}" data-m="phone">Mobile OTP</button><button class="${mode=="register"?"on":""}" data-m="register">Create account</button></div>
+  <form id="af">${mode=="login"?`<label>Email address</label><input id="email" type="email" required autocomplete="email"><label>Password</label><input id="pw" type="password" required autocomplete="current-password"><div class="err" id="aerr"></div><button class="btn" style="width:100%">Log in</button><p><a href="#" id="forgot">Forgot password?</a></p>`
+  :mode=="phone"?`<label>Mobile number with country code</label><input id="ph" type="tel" placeholder="+91 98765 43210" required><div id="otpbox" style="display:none"><label>6-digit OTP</label><input id="otp" inputmode="numeric" maxlength="6"></div><div class="err" id="aerr"></div><button class="btn" id="phb" style="width:100%">Send OTP</button><p style="font-size:.8rem;color:var(--mut)">OTP login needs an SMS provider enabled in Supabase.</p>`
+  :`<label>Full name</label><input id="fn" required minlength="2"><div class="two"><div><label>Email address</label><input id="email" type="email" required></div><div><label>Mobile number</label><input id="ph" type="tel" placeholder="+91..."></div></div><div class="two"><div><label>Password (8+ characters)</label><input id="pw" type="password" required minlength="8" autocomplete="new-password"></div><div><label>Confirm password</label><input id="pw2" type="password" required autocomplete="new-password"></div></div><label>Profile picture (optional)</label><input id="pic" type="file" accept="image/*"><div class="err" id="aerr"></div><button class="btn" style="width:100%">Create account</button>`}</form></div></section></div>`;
+  document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>authView(b.dataset.m));
+  const err=m=>$("#aerr").textContent=m;
+  if(!configured)return;
+  $("#forgot")&&($("#forgot").onclick=async e=>{e.preventDefault();const em=val("email");if(!em)return err("Enter your email first.");
+    const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin});error?err(error.message):toast("Password reset email sent.")});
+  $("#af").onsubmit=async e=>{e.preventDefault();err("");
+    if(mode=="login"){const {error}=await sb.auth.signInWithPassword({email:val("email"),password:$("#pw").value});if(error)err(error.message)}
+    else if(mode=="register"){if($("#pw").value!==$("#pw2").value)return err("Passwords do not match.");
+      const {data,error}=await sb.auth.signUp({email:val("email"),password:$("#pw").value,options:{data:{full_name:val("fn"),phone:val("ph")}}});
+      if(error)return err(error.message);
+      if(!data.session)return toast("Check your email to confirm your account, then log in.");
+      S.user=data.user;const f=$("#pic").files[0];if(f){try{const u=await upload(f);await sb.from("profiles").update({avatar_url:u}).eq("id",S.user.id)}catch(x){toast("Account created; picture upload failed.",1)}}}
+    else{const ph=val("ph");if($("#otpbox").style.display=="none"){const {error}=await sb.auth.signInWithOtp({phone:ph});if(error)return err(error.message);
+        $("#otpbox").style.display="block";$("#phb").textContent="Verify OTP";toast("OTP sent.")}
+      else{const {error}=await sb.auth.verifyOtp({phone:ph,token:val("otp"),type:"sms"});if(error)err(error.message)}}}}
+
+/* ---------- DATA ---------- */
+async function loadMe(){
+  const {data}=await sb.from("profiles").select("*").eq("id",S.user.id).single();S.profile=data;
+  if(data?.suspended){await sb.auth.signOut();return toast("This account is suspended.",1)}
+  const [sv,n]=await Promise.all([sb.from("saved_items").select("kind,item_id"),sb.from("notifications").select("id",{count:"exact",head:true}).eq("read",false)]);
+  S.saved=sv.data||[];S.unread=n.count||0}
+const isSaved=(k,id)=>S.saved.some(s=>s.kind===k&&s.item_id===id);
+async function toggleSave(k,id){if(isSaved(k,id)){await sb.from("saved_items").delete().match({user_id:S.user.id,kind:k,item_id:id});S.saved=S.saved.filter(s=>!(s.kind===k&&s.item_id===id))}
+  else{const {error}=await sb.from("saved_items").insert({user_id:S.user.id,kind:k,item_id:id});if(error)return toast(error.message,1);S.saved.push({kind:k,item_id:id})}render()}
+function score(need,have){const n=(need||[]).map(x=>x.toLowerCase()),h=(have||[]).map(x=>x.toLowerCase());if(!n.length)return null;
+  return Math.round(100*n.filter(x=>h.some(y=>y.includes(x)||x.includes(y))).length/n.length)}
+const scoreTag=s=>s==null?"":`<span class="score" title="Estimated from skill overlap only">${s}% estimated match</span>`;
+
+/* ---------- SHELL ---------- */
+function shell(inner){
+  const p=S.profile||{},ini=esc((p.full_name||"?")[0]).toUpperCase();
+  $("#root").innerHTML=`<header><div class="logo" style="cursor:pointer" data-go="home"><i>PC</i><span>Problem Crackers</span></div>
+  <div class="search"><input id="gs" placeholder="Search ideas, skills, developers, or businesses..." value="${esc(S.q)}" aria-label="Search"></div>
+  <button class="ibtn" data-go="inbox" title="Notifications" aria-label="Notifications">🔔${S.unread?`<span class="dot">${S.unread}</span>`:""}</button>
+  <button class="ibtn" data-go="inbox" title="Messages" aria-label="Messages">✉</button>
+  ${p.avatar_url?`<img class="av" id="avb" src="${esc(p.avatar_url)}" alt="Profile">`:`<button class="av" id="avb" aria-label="Profile menu">${ini}</button>`}</header>
+  ${S.menu?`<div class="menu">${[["My Profile","profile"],["My Ideas","mine"],["My Skills","profile"],["My Business","mine"],["My Collaborations","inbox"],["Settings","settings"],...(p.is_admin?[["Admin Dashboard","admin"]]:[])].map(([l,v])=>`<button data-go="${v}">${l}</button>`).join("")}<button id="out">Logout</button></div>`:""}
+  <main>${inner}</main>`;
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{S.menu=false;S.view=b.dataset.go;render()});
+  $("#avb").onclick=()=>{S.menu=!S.menu;render()};$("#out")&&($("#out").onclick=()=>sb.auth.signOut());
+  $("#gs").onkeydown=e=>{if(e.key==="Enter"){S.q=e.target.value;S.view="explore";render()}}}
+
+async function render(){
+  if(!S.user)return authView();
+  const v={home:home,explore:explore,inbox:inbox,profile:profileView,mine:mine,settings:settings,admin:admin}[S.view]||home;
+  shell(`<p style="color:var(--mut)">Loading...</p>`);
+  try{const html=await v();shell(html);document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>actions[b.dataset.a](b.dataset.id,b.dataset.x))}
+  catch(e){shell(`<div class="banner">Could not load this page: ${esc(e.message)}</div>`)}}
+
+/* ---------- HOME ---------- */
+async function home(){
+  return `<h1 style="margin:.2rem 0 1.2rem">Welcome, ${esc((S.profile.full_name||"").split(" ")[0])}</h1>
+  <div class="grid2">
+  <section class="big a"><h2>Introduce Your Idea</h2><p>Have an idea but don't know how to develop it? Find the right people to make it happen.</p><button class="btn" data-a="idea">Share Your Idea</button></section>
+  <section class="big b"><h2>Showcase Your Skills</h2><p>Have skills but don't have an idea? Connect with innovative people and develop something together.</p><button class="btn navy" data-a="skills">Add Your Skills</button></section>
+  <section class="big c"><div><h2>Develop Your Business</h2><p>Own a shop, mall, industry, company, or business? Connect with talented developers to transform your business digitally.</p></div><button class="btn" data-a="biz">Register Your Business</button></section></div>
+  <div class="sub"><h2 style="margin:0;flex:1">Recommended for you</h2></div><div class="cards">${await recs()}</div>
+  <div class="row" style="margin-top:1.5rem"><button class="btn ghost" data-go="explore">Explore everything</button></div>`}
+async function recs(){
+  const mine=S.profile.skills||[];
+  const {data:ideas}=await sb.from("ideas").select("*, profiles(full_name)").neq("owner_id",S.user.id).order("created_at",{ascending:false}).limit(30);
+  const list=(ideas||[]).map(i=>({i,s:score(i.skills,mine)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,4);
+  if(!list.length)return `<div class="empty">${mine.length?"No idea matches your skills yet.":"Add your skills to see ideas that match you."}</div>`;
+  return list.map(x=>ideaCard(x.i,x.s)).join("")}
+
+/* ---------- CARDS ---------- */
+function ideaCard(i,s){return `<article class="card"><div class="row" style="justify-content:space-between"><span class="chip o">${esc(i.category||"Other")}</span><span class="chip">${esc(i.status)}</span></div>
+ <h3>${esc(i.title)}</h3><p>${esc((i.description||"").slice(0,160))}${(i.description||"").length>160?"...":""}</p><div>${chips(i.skills)}</div>
+ <div class="row" style="justify-content:space-between"><small>by ${esc(i.profiles?.full_name||"Member")}</small>${scoreTag(s??score(i.skills,S.profile.skills))}</div>
+ <div class="row" style="margin-top:.6rem"><button class="btn sm" data-a="view-idea" data-id="${i.id}">Details</button>
+ ${i.owner_id!==S.user.id?`<button class="btn sm navy" data-a="collab" data-id="${i.owner_id}" data-x="${i.id}">Collaborate</button><button class="btn sm ghost" data-a="save-idea" data-id="${i.id}">${isSaved("idea",i.id)?"Saved":"Save"}</button>`:`<button class="btn sm ghost" data-a="status" data-id="${i.id}" data-x="${esc(i.status)}">Update status</button>`}</div></article>`}
+function devCard(p){const sc=null;return `<article class="card"><h3>${esc(p.full_name||"Member")}</h3><p>${esc(p.headline||"")}</p>
+ <div>${p.experience?`<span class="chip o">${esc(p.experience)}</span>`:""}${chips(p.skills)}</div>
+ <div class="row" style="margin-top:.6rem"><button class="btn sm" data-a="view-dev" data-id="${p.id}">Profile</button><button class="btn sm navy" data-a="collab" data-id="${p.id}">Request</button><button class="btn sm ghost" data-a="msg" data-id="${p.id}">Message</button><button class="btn sm ghost" data-a="save-developer" data-id="${p.id}">${isSaved("developer",p.id)?"Saved":"Save"}</button></div></article>`}
+function bizCard(b){return `<article class="card"><span class="chip o">${esc(b.category||"Other")}</span><h3>${esc(b.name)}</h3><p>${esc((b.description||"").slice(0,140))}</p>
+ <div>${chips(b.needs)}</div><small>${esc([b.city,b.state,b.country].filter(Boolean).join(", "))}</small>
+ <div class="row" style="margin-top:.6rem"><button class="btn sm" data-a="view-biz" data-id="${b.id}">Details</button>${b.owner_id!==S.user.id?`<button class="btn sm navy" data-a="collab" data-id="${b.owner_id}" data-x="biz:${b.id}">Send proposal</button><button class="btn sm ghost" data-a="save-business" data-id="${b.id}">${isSaved("business",b.id)?"Saved":"Save"}</button>`:""}</div></article>`}
+
+/* ---------- EXPLORE ---------- */
+async function explore(){
+  const t=S.tab,q=S.q.replace(/[%,()]/g," ").trim();let rows=[],html="";
+  if(t==="ideas"){let r=sb.from("ideas").select("*, profiles(full_name)").order("created_at",{ascending:false}).limit(60);
+    if(S.cat)r=r.eq("category",S.cat);if(S.st)r=r.eq("status",S.st);if(q)r=r.or(`title.ilike.%${q}%,description.ilike.%${q}%`);rows=(await r).data||[];html=rows.map(i=>ideaCard(i)).join("")}
+  else if(t==="devs"){let r=sb.from("profiles").select("*").neq("id",S.user.id).not("skills","eq","{}").limit(60);
+    if(S.lvl)r=r.eq("experience",S.lvl);if(q)r=r.or(`full_name.ilike.%${q}%,headline.ilike.%${q}%`);rows=(await r).data||[];
+    html=rows.map(devCard).join("")}
+  else{let r=sb.from("businesses").select("*").order("created_at",{ascending:false}).limit(60);
+    if(S.cat)r=r.eq("category",S.cat);if(q)r=r.or(`name.ilike.%${q}%,description.ilike.%${q}%,city.ilike.%${q}%`);rows=(await r).data||[];html=rows.map(bizCard).join("")}
+  const catOpts=t==="biz"?BCATS:CATS;
+  return `<h1>Explore</h1><div class="tabs" style="max-width:420px">${[["ideas","Ideas"],["devs","Developers"],["biz","Businesses"]].map(([k,l])=>`<button class="${t==k?"on":""}" data-tab="${k}">${l}</button>`).join("")}</div>
+  <div class="sub"><input id="eq" placeholder="Search..." value="${esc(S.q)}">${t!=="devs"?sel("ecat",catOpts,S.cat,"All categories"):sel("elvl",LEVELS,S.lvl,"Any experience")}${t==="ideas"?sel("est",STATUS,S.st,"Any status"):""}<button class="btn sm" id="ego">Search</button></div>
+  <div class="cards">${html||`<div class="empty">Nothing here yet. Be the first to add something.</div>`}</div>`}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(b){S.tab=b.dataset.tab;S.cat="";render()}
+  if(e.target.id==="ego"){S.q=val("eq");S.cat=val("ecat");S.lvl=val("elvl");S.st=val("est");render()}});
+
+/* ---------- INBOX ---------- */
+async function inbox(){
+  const [rq,ms,nt]=await Promise.all([
+    sb.from("collab_requests").select("*, f:profiles!collab_requests_from_id_fkey(full_name), t:profiles!collab_requests_to_id_fkey(full_name)").order("created_at",{ascending:false}),
+    sb.from("messages").select("*, f:profiles!messages_from_id_fkey(full_name), t:profiles!messages_to_id_fkey(full_name)").order("created_at",{ascending:false}).limit(40),
+    sb.from("notifications").select("*").order("created_at",{ascending:false}).limit(30)]);
+  await sb.from("notifications").update({read:true}).eq("read",false);S.unread=0;
+  const me=S.user.id;
+  const reqs=(rq.data||[]).map(r=>{const inc=r.to_id===me;return `<div class="card" style="margin-bottom:.7rem"><b>${inc?esc(r.f?.full_name):"To "+esc(r.t?.full_name)}</b> <span class="chip ${r.status=="pending"?"o":""}">${r.status}</span><p>${esc(r.message||"")}</p>
+   ${inc&&r.status==="pending"?`<button class="btn sm" data-a="accept" data-id="${r.id}">Accept</button> <button class="btn sm ghost" data-a="reject" data-id="${r.id}">Reject</button>`:""}
+   ${r.status==="accepted"?`<button class="btn sm navy" data-a="msg" data-id="${inc?r.from_id:r.to_id}">Message</button>`:""}</div>`}).join("");
+  const msgs=(ms.data||[]).map(m=>{const out=m.from_id===me,o=out?m.to_id:m.from_id;return `<div class="card" style="margin-bottom:.7rem"><b>${out?"You to "+esc(m.t?.full_name):esc(m.f?.full_name)}</b> <small>${new Date(m.created_at).toLocaleString()}</small><p style="color:var(--txt)">${esc(m.body)}</p>${out?"":`<button class="btn sm ghost" data-a="msg" data-id="${o}">Reply</button>`}</div>`}).join("");
+  const nts=(nt.data||[]).map(n=>`<div class="card" style="margin-bottom:.7rem">${esc(n.body)} <small>${new Date(n.created_at).toLocaleString()}</small></div>`).join("");
+  return `<h1>Collaborations & Messages</h1><div class="grid2"><div><h2>Collaboration requests</h2>${reqs||`<div class="empty">No requests yet.</div>`}</div><div><h2>Messages</h2>${msgs||`<div class="empty">No messages yet.</div>`}<h2>Notifications</h2>${nts||`<div class="empty">All caught up.</div>`}</div></div>`}
+
+/* ---------- PROFILE / MINE / SETTINGS ---------- */
+async function profileView(){const p=S.profile;return `<h1>My Profile</h1><div class="card"><h3>${esc(p.full_name)}</h3><p>${esc(p.headline||"No headline yet")}</p><div>${chips(p.skills)}</div><p>${esc(p.intro||"")}</p>
+  ${["portfolio_url","github_url","linkedin_url"].filter(k=>p[k]).map(k=>`<a href="${esc(p[k])}" target="_blank" rel="noopener noreferrer">${k.split("_")[0]}</a> `).join("")}<div class="row"><button class="btn" data-a="skills">Edit skills & profile</button></div></div>`}
+async function mine(){
+  const [i,b,sv]=await Promise.all([sb.from("ideas").select("*, profiles(full_name)").eq("owner_id",S.user.id),sb.from("businesses").select("*").eq("owner_id",S.user.id),Promise.resolve(S.saved)]);
+  let savedHtml="";for(const [k,tbl,fn] of [["idea","ideas",x=>ideaCard(x)],["developer","profiles",devCard],["business","businesses",bizCard]]){
+    const ids=S.saved.filter(s=>s.kind===k).map(s=>s.item_id);if(ids.length){const {data}=await sb.from(tbl).select(k==="idea"?"*, profiles(full_name)":"*").in("id",ids);savedHtml+=(data||[]).map(fn).join("")}}
+  return `<h1>My Ideas</h1><div class="cards">${(i.data||[]).map(x=>ideaCard(x)).join("")||`<div class="empty">You haven't shared an idea yet.</div>`}</div>
+  <h1>My Business</h1><div class="cards">${(b.data||[]).map(bizCard).join("")||`<div class="empty">No business registered yet.</div>`}</div>
+  <h1>Saved</h1><div class="cards">${savedHtml||`<div class="empty">Nothing saved yet.</div>`}</div>`}
+async function settings(){return `<h1>Settings</h1><div class="card"><h3>Account</h3><p>Signed in as ${esc(S.user.email||S.user.phone||"")}</p><div class="row"><button class="btn" data-a="pw">Change password</button><button class="btn ghost" data-a="blocklist">Report a problem</button></div></div>
+  <div class="card" style="margin-top:1rem"><h3>Privacy</h3><p>Your profile is visible to signed-in members only. Suspended or hidden content is never shown publicly.</p></div>`}
+
+/* ---------- ADMIN ---------- */
+async function admin(){
+  if(!S.profile.is_admin)return `<div class="banner">Admins only.</div>`;
+  const c=t=>sb.from(t).select("id",{count:"exact",head:true});
+  const [u,i,b,r,us,rp,ia]=await Promise.all([c("profiles"),c("ideas"),c("businesses"),c("collab_requests"),sb.from("profiles").select("*").order("created_at",{ascending:false}).limit(50),sb.from("reports").select("*").eq("resolved",false),sb.from("ideas").select("id,title,hidden").order("created_at",{ascending:false}).limit(30)]);
+  const stat=(l,n)=>`<div class="card"><h3>${n??0}</h3><p>${l}</p></div>`;
+  return `<h1>Admin Dashboard</h1><div class="cards">${stat("Users",u.count)}${stat("Ideas",i.count)}${stat("Businesses",b.count)}${stat("Collaboration requests",r.count)}</div>
+  <h2>Users</h2>${(us.data||[]).map(p=>`<div class="card row" style="justify-content:space-between;margin-bottom:.5rem"><span>${esc(p.full_name)} ${p.is_admin?`<span class="chip o">admin</span>`:""}${p.suspended?`<span class="chip">suspended</span>`:""}</span>${p.id!==S.user.id?`<button class="btn sm ghost" data-a="suspend" data-id="${p.id}" data-x="${!p.suspended}">${p.suspended?"Restore":"Suspend"}</button>`:""}</div>`).join("")}
+  <h2>Ideas</h2>${(ia.data||[]).map(p=>`<div class="card row" style="justify-content:space-between;margin-bottom:.5rem"><span>${esc(p.title)} ${p.hidden?`<span class="chip">hidden</span>`:""}</span><button class="btn sm ghost" data-a="hide" data-id="${p.id}" data-x="${!p.hidden}">${p.hidden?"Show":"Hide"}</button></div>`).join("")}
+  <h2>Open reports</h2>${(rp.data||[]).map(p=>`<div class="card row" style="justify-content:space-between;margin-bottom:.5rem"><span>${esc(p.kind)}: ${esc(p.reason||"")}</span><button class="btn sm ghost" data-a="resolve" data-id="${p.id}">Resolve</button></div>`).join("")||`<div class="empty">No open reports.</div>`}`}
+
+/* ---------- ACTIONS ---------- */
+const actions={
+  idea(){modal("Share Your Idea",`<label>Idea title</label><input id="t" required maxlength="150"><label>Detailed idea description</label><textarea id="d" rows="3" required></textarea>
+   <div class="two"><div><label>Problem you want to solve</label><textarea id="pr" rows="2"></textarea></div><div><label>Proposed solution</label><textarea id="so" rows="2"></textarea></div></div>
+   <label>Required skills (comma separated)</label><input id="sk" placeholder="Flutter, Python, UI/UX Design">
+   <div class="two"><div><label>Project category</label>${sel("ca",CATS,"","Choose...")}</div><div><label>Collaboration preference</label>${sel("cp",["Co-founder","Paid developer","Equity partner","Open to any"],"")}</div></div>
+   <label>Expected outcome</label><input id="o"><div class="two"><div><label>Budget (optional)</label><input id="bu"></div><div><label>Timeline (optional)</label><input id="ti"></div></div><label>Reference image or document (optional)</label><input id="f" type="file">`,
+   async()=>{if(val("t").length<3||!val("d"))throw new Error("Title and description are required.");if(!val("ca"))throw new Error("Pick a category.");
+    const file=$("#f").files[0],url=await upload(file);
+    const {error}=await sb.from("ideas").insert({owner_id:S.user.id,title:val("t"),description:val("d"),problem:val("pr"),solution:val("so"),skills:csv(val("sk")),category:val("ca"),outcome:val("o"),budget:val("bu"),timeline:val("ti"),collab_pref:val("cp"),file_url:url});
+    if(error)throw error;await addRole("idea_owner");toast("Published.");S.view="mine";render()},"Publish Idea")},
+  skills(){const p=S.profile;modal("Showcase Your Skills",`<div class="two"><div><label>Full name</label><input id="n" value="${esc(p.full_name)}" required></div><div><label>Professional headline</label><input id="h" value="${esc(p.headline||"")}"></div></div>
+   <label>Technical skills, languages, frameworks, tools (comma separated)</label><input id="sk" value="${esc((p.skills||[]).join(", "))}" placeholder="HTML, React, Python, Flutter, UI/UX Design" required>
+   <label>Experience level</label>${sel("ex",LEVELS,p.experience,"Choose...")}
+   <div class="two"><div><label>Portfolio URL</label><input id="po" type="url" value="${esc(p.portfolio_url||"")}"></div><div><label>GitHub URL</label><input id="gh" type="url" value="${esc(p.github_url||"")}"></div></div>
+   <label>LinkedIn URL</label><input id="li" type="url" value="${esc(p.linkedin_url||"")}"><label>Short introduction</label><textarea id="in" rows="3">${esc(p.intro||"")}</textarea><label>Profile picture</label><input id="pic" type="file" accept="image/*">`,
+   async()=>{const sk=csv(val("sk"));if(!sk.length)throw new Error("Add at least one skill.");if(!val("ex"))throw new Error("Pick an experience level.");
+    const u={full_name:val("n"),headline:val("h"),skills:sk,experience:val("ex"),portfolio_url:val("po")||null,github_url:val("gh")||null,linkedin_url:val("li")||null,intro:val("in")};
+    const f=$("#pic").files[0];if(f)u.avatar_url=await upload(f);
+    const {error}=await sb.from("profiles").update(u).eq("id",S.user.id);if(error)throw error;await addRole("developer");await loadMe();toast("Profile saved.");render()},"Save profile")},
+  biz(){modal("Register Your Business",`<div class="two"><div><label>Business name</label><input id="n" required></div><div><label>Business category</label>${sel("ca",BCATS,"","Choose...")}</div></div>
+   <label>Business description</label><textarea id="d" rows="3" required></textarea><div class="two"><div><label>Owner name</label><input id="on" value="${esc(S.profile.full_name)}"></div><div><label>Contact email</label><input id="em" type="email" value="${esc(S.user.email||"")}" required></div></div>
+   <div class="two"><div><label>Mobile number</label><input id="ph" type="tel"></div><div><label>Website (optional)</label><input id="w" type="url"></div></div>
+   <label>Business location</label><input id="lo"><div class="two"><div><label>City</label><input id="ci"></div><div><label>State</label><input id="st"></div></div><label>Country</label><input id="co">
+   <label>Required digital solutions</label><div>${NEEDS.map(n=>`<label style="display:block;font-weight:400"><input type="checkbox" class="nd" value="${n}" style="width:auto;margin:0 .4rem 0 0">${n}</label>`).join("")}</div><label>Logo or images</label><input id="f" type="file" accept="image/*">`,
+   async()=>{if(!val("n")||!val("ca"))throw new Error("Business name and category are required.");const needs=[...document.querySelectorAll(".nd:checked")].map(x=>x.value);if(!needs.length)throw new Error("Choose at least one digital solution.");
+    const url=await upload($("#f").files[0]);const {error}=await sb.from("businesses").insert({owner_id:S.user.id,name:val("n"),category:val("ca"),description:val("d"),owner_name:val("on"),email:val("em"),phone:val("ph"),website:val("w")||null,location:val("lo"),city:val("ci"),state:val("st"),country:val("co"),needs,logo_url:url});
+    if(error)throw error;await addRole("business_owner");toast("Business submitted.");S.view="mine";render()},"Submit Business")},
+  "view-idea":async id=>{const {data:i}=await sb.from("ideas").select("*, profiles(full_name)").eq("id",id).single();
+    modal(i.title,`<p>${esc(i.description)}</p><p><b>Problem:</b> ${esc(i.problem||"-")}</p><p><b>Solution:</b> ${esc(i.solution||"-")}</p><p><b>Expected outcome:</b> ${esc(i.outcome||"-")}</p><p>${chips(i.skills)}</p><p>Budget: ${esc(i.budget||"-")} | Timeline: ${esc(i.timeline||"-")} | Preference: ${esc(i.collab_pref||"-")}</p>${i.file_url?`<p><a href="${esc(i.file_url)}" target="_blank" rel="noopener noreferrer">Reference file</a></p>`:""}<p>${scoreTag(score(i.skills,S.profile.skills))}</p>${i.owner_id!==S.user.id?`<button type="button" class="btn ghost sm" onclick="report('idea','${i.id}')">Report this idea</button>`:""}`)},
+  "view-dev":async id=>{const {data:p}=await sb.from("profiles").select("*").eq("id",id).single();
+    modal(p.full_name,`<p>${esc(p.headline||"")}</p><p>${esc(p.intro||"")}</p><div>${chips(p.skills)}</div>${["portfolio_url","github_url","linkedin_url"].filter(k=>p[k]).map(k=>`<a href="${esc(p[k])}" target="_blank" rel="noopener noreferrer">${k.split("_")[0]}</a> `).join("")}<p><button type="button" class="btn ghost sm" onclick="report('developer','${p.id}')">Report this profile</button></p>`)},
+  "view-biz":async id=>{const {data:b}=await sb.from("businesses").select("*").eq("id",id).single();
+    modal(b.name,`<p>${esc(b.description||"")}</p><p>${chips(b.needs)}</p><p>${esc([b.location,b.city,b.state,b.country].filter(Boolean).join(", "))}</p>${b.website?`<a href="${esc(b.website)}" target="_blank" rel="noopener noreferrer">Website</a>`:""}<p><button type="button" class="btn ghost sm" onclick="report('business','${b.id}')">Report this business</button></p>`)},
+  collab(to,x){modal("Send collaboration request",`<label>Message</label><textarea id="m" rows="4" required placeholder="Introduce yourself and say how you could work together."></textarea>`,async()=>{
+    const row={from_id:S.user.id,to_id:to,message:val("m")};if(x&&x.startsWith("biz:"))row.business_id=x.slice(4);else if(x)row.idea_id=x;
+    const {error}=await sb.from("collab_requests").insert(row);if(error)throw error;toast("Request sent.")},"Send request")},
+  msg(to){modal("Send message",`<label>Message</label><textarea id="m" rows="4" required></textarea>`,async()=>{const {error}=await sb.from("messages").insert({from_id:S.user.id,to_id:to,body:val("m")});if(error)throw error;toast("Message sent.")},"Send")},
+  async accept(id){await sb.from("collab_requests").update({status:"accepted"}).eq("id",id);render()},
+  async reject(id){await sb.from("collab_requests").update({status:"rejected"}).eq("id",id);render()},
+  status(id,cur){modal("Project status",`<label>Status</label>${sel("s",STATUS,cur)}`,async()=>{const {error}=await sb.from("ideas").update({status:val("s")}).eq("id",id);if(error)throw error;render()},"Update")},
+  pw(){modal("Change password",`<label>New password (8+ characters)</label><input id="p" type="password" minlength="8" required>`,async()=>{const {error}=await sb.auth.updateUser({password:$("#p").value});if(error)throw error;toast("Password updated.")},"Update password")},
+  blocklist(){toast("Use the Report button on any idea, profile or business.")},
+  async suspend(id,x){const {error}=await sb.rpc("admin_set_suspended",{uid:id,val:x==="true"});error?toast(error.message,1):render()},
+  async hide(id,x){await sb.from("ideas").update({hidden:x==="true"}).eq("id",id);render()},
+  async resolve(id){await sb.from("reports").update({resolved:true}).eq("id",id);render()},
+  async "save-idea"(id){toggleSave("idea",id)},async "save-developer"(id){toggleSave("developer",id)},async "save-business"(id){toggleSave("business",id)}};
+async function addRole(r){const roles=[...new Set([...(S.profile.roles||[]),r])];await sb.from("profiles").update({roles}).eq("id",S.user.id);S.profile.roles=roles}
+window.report=(kind,id)=>modal("Report",`<label>What is wrong?</label><textarea id="r" rows="3" required></textarea>`,async()=>{const {error}=await sb.from("reports").insert({reporter_id:S.user.id,kind,item_id:id,reason:val("r")});if(error)throw error;toast("Report sent to the admins.")},"Send report");
+
+/* ---------- BOOT ---------- */
+if(configured){
+  sb.auth.onAuthStateChange(async(_e,session)=>{S.user=session?.user||null;if(S.user)await loadMe();else S.profile=null;S.view=S.user?S.view:"home";render()});
+  sb.auth.getSession().then(({data})=>{if(!data.session)render()});
+}else authView();
+</script>
+</body>
+</html>
